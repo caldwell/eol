@@ -1,0 +1,9 @@
+2001-09-20  David Caldwell  <david@indigita.com>
+
+	* eol.1: Created manpage
+
+	* makefile: Added manpage and links to install
+
+	* version.h: Upped version to 1.0.1
+	
+
