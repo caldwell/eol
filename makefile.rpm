@@ -1,0 +1,37 @@
+rpmroot = RPM
+rpmdirs = BUILD SOURCES SPECS RPMS RPMS/i386 SRPMS root
+rpmarch = i386
+
+ifeq ($(fake_tarball),yes)
+$(rpmroot)/SOURCES/$(rpmproj)-$(version).tar.gz : rpmdirs
+	( cd $(rpmroot)/BUILD; ln -s ../.. $(rpmproj)-$(version) ; \
+		tar zcf ../SOURCES/$(rpmproj)-$(version).tar.gz $(rpmproj)-$(version) )
+endif
+
+ifeq ($(copy_tarball),yes)
+$(rpmroot)/SOURCES/$(rpmproj)-$(version).tar.gz : $(rpmproj)-$(version).tar.gz
+	cp $< $@
+endif
+
+rpmdirs:
+	for f in $(rpmdirs) ; do \
+		mkdir -p $(rpmroot)/$$f; \
+	done
+
+rpm: rpmdirs $(rpmproj).spec $(rpmroot)/SOURCES/$(rpmproj)-$(version).tar.gz
+	rm -f $(rpmroot)/SPECS/$(rpmproj).spec
+	( cd $(rpmroot)/SPECS; ln -s ../../$(rpmproj).spec )
+	echo BuildRoot: $(shell pwd)/$(rpmroot)/root   > $(rpmroot)/rpmrc
+	echo Topdir:    $(shell pwd)/$(rpmroot)       >> $(rpmroot)/rpmrc
+	echo Vendor: Indigita                         >> $(rpmroot)/rpmrc
+	rpm --rcfile $(rpmroot)/rpmrc -ba $(rpmroot)/SPECS/$(rpmproj).spec
+
+cp-rpm: rpm
+	cp $(rpmroot)/RPMS/$(rpmarch)/$(rpmproj)-$(version)-*.$(rpmarch).rpm .
+
+archivedir=/local/redhat/indigita
+
+archive:
+	cp $(rpmroot)/RPMS/$(rpmarch)/$(rpmproj)-$(version)-*.$(rpmarch).rpm $(archivedir)/$(rpmarch)
+	cp $(rpmroot)/SRPMS/$(rpmproj)-$(version)-*.src.rpm $(archivedir)/SRPMS
+	cp $(rpmroot)/SOURCES/$(rpmproj)-$(version).tar.gz $(archivedir)/src
