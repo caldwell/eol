@@ -1,3 +1,9 @@
+eol (1.0.2-2) unstable; urgency=low
+
+  * Added conflict for sysutils (it contains todos).
+
+ -- David Caldwell <david@porkrind.org>  Sun, 7 Oct 2001 12:41:00 -0700
+
 eol (1.0.2-1) unstable; urgency=low
 
   * New upstream release
