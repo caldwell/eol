@@ -1,6 +1,14 @@
+eol (1.0.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Removed debug print.
+
+ -- David Caldwell <david@porkrind.org>  Thu, 20 Sep 2001 17:29:59 -0700
+
 eol (1.0.1-1) unstable; urgency=low
 
   * New upstream release
+  * Man pages added to main release, removed from debian specific stuff.
 
  -- David Caldwell <david@porkrind.org>  Thu, 20 Sep 2001 17:29:59 -0700
 
