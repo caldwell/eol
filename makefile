@@ -74,9 +74,9 @@ endif
 	   	ln -s $(manpage) $$f ; \
 	  done)
 ifeq ($(os),next)
-	install -s -o 0 -g 0 $(manpage) $(mandir)/$(manpage)
+	install -o 0 -g 0 $(manpage) $(mandir)/$(manpage)
 else
-	install -s -o0 -g0 -m u+rwx,g+rwx,o+rx $(manpage) $(mandir)/$(manpage)
+	install -o0 -g0 -m u+rwx,g+rwx,o+rx $(manpage) $(mandir)/$(manpage)
 endif
 
 install-log:
