@@ -151,7 +151,7 @@ int Eol(char *inFileName,char *outFileName,char *eol)
         inPlace = 1;
     }
 
-    printf("Converting %s to %s%s\n",inFileName,outFileName,inPlace?" (inplace)":"");
+//    printf("Converting %s to %s%s\n",inFileName,outFileName,inPlace?" (inplace)":"");
 
     FILE *out = OpenAndErr(outFileName,"wb");
 
@@ -229,4 +229,7 @@ int move(char *oldpath, char *newpath,char *eol)
 
 
 // $Log$
+// Revision 1.1.1.1  2001/09/20 23:44:14  david
+// - Initial version
+//
 
