@@ -14,6 +14,7 @@ getopt = #getopt/getopt.o getopt/getopt1.o
 
 prefix = /usr/local
 bindir = $(prefix)/bin
+mandir = $(prefix)/man/man$(mansection)
 p = to
 
 ifeq ($(os),next)
@@ -39,7 +40,11 @@ links = $(p)mac$e $(p)dos$e $(p)unix$e $(p)win$e
 
 prog = eol$e
 
-all: $(prog) $(links)
+mansection = 1
+manpage = $(prog).$(mansection)
+manlinks = $(patsubst %,%.$(mansection),$(links))
+
+all: $(prog) $(links) $(manlinks)
 
 $(prog): $(eol_objs) $(aspi_lib)
 	$(CC) $(CPPFLAGS) -o $(prog) $(eol_objs) $(libs)
@@ -47,7 +52,10 @@ $(prog): $(eol_objs) $(aspi_lib)
 $(links) : $(prog)
 	$(LN) $< $@
 
-install : $(prog)
+$(manlinks) : $(manpage)
+	$(LN) $< $@
+
+install : $(prog) $(manpage)
 	-mkdir -p $(bindir)
 	( cd $(bindir) ; \
 	  for f in $(links) ; do \
@@ -57,7 +65,18 @@ install : $(prog)
 ifeq ($(os),next)
 	install -s -o 0 -g 0 $(prog) $(bindir)/$(prog)
 else
-	install -s -o0 -g0 -m u+srwx,g+rwx,o+rx $(prog) $(bindir)/$(prog)
+	install -s -o0 -g0 -m u+rwx,g+rwx,o+rx $(prog) $(bindir)/$(prog)
+endif
+	-mkdir -p $(mandir)
+	( cd $(mandir) ; \
+	  for f in $(manlinks) ; do \
+		rm -f $$f; \
+	   	ln -s $(manpage) $$f ; \
+	  done)
+ifeq ($(os),next)
+	install -s -o 0 -g 0 $(manpage) $(mandir)/$(manpage)
+else
+	install -s -o0 -g0 -m u+rwx,g+rwx,o+rx $(manpage) $(mandir)/$(manpage)
 endif
 
 install-log:
@@ -73,7 +92,7 @@ tarball : MyVersion $(prog)-$(version).tar.gz
 $(prog)-$(version).tar.gz : MyVersion makefile
 	rm -rf $(prog)-$(version)
 	mkdir $(prog)-$(version)
-	-cp -a *.c *.cc *.h *.pl makefile makefile.rpm *.in $(prog)-$(version)
+	-cp -a *.c *.cc *.h *.pl makefile makefile.rpm *.in $(manpage) ChangeLog $(prog)-$(version)
 #	mkdir $(prog)-$(version)/getopt
 #	cp -a getopt/*.[hc] $(prog)-$(version)/getopt
 	tar czf $(prog)-$(version).tar.gz $(prog)-$(version)
