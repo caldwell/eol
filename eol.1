@@ -1,0 +1,127 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH EOL 1 "September 19, 2001"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+eol \- program to translate text file end-of-line characters.
+.SH SYNOPSIS
+.B eol
+.RI -c\  <conversion> \  infile \ [\ -o\  outfile \ ]\ ...
+.br
+.B tounix
+.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.br
+.B tomac
+.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.br
+.B todos
+.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.br
+.B towin
+.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.SH DESCRIPTION
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" respectively.
+\fBeol\fP translates end of line characters between different
+operating system formats.
+.B eol
+will translate a list of files given on the command line. The
+translations are by default done "in place" meaning the input file is the
+same as the output file. This can be changed with the
+.B \-o
+command line option.
+.PP
+Unlike similiar programs, 
+.B eol
+doesn't care about what the current format of the text file
+is. Therefore, translating a file twice will have no effect the second
+time (ie, it will not corrupt the file).
+.PP
+.B tounix
+is a shortcut for "eol -c tounix".
+.br
+.B tomac
+is a shortcut for "eol -c tomac".
+.br
+.B todos
+is a shortcut for "eol -c todos".
+.br
+.B towin
+is a shortcut for "eol -c towin".
+.SH OPTIONS
+.TP
+.BI \-c\  <conversion>
+This commands eol (and the toXXX variants) to translate the files with the specified conversion format.
+.PP
+.RS
+.I <conversion>
+can be one of:
+.TP
+.B tounix
+Translates to Unix style end of line characters (Linefeed)
+.TP
+.B tomac
+Translates to Macintosh style end of line characters (Carriage-Return)
+.TP
+.B todos
+Translates to DOS style end of line characters (Carriage-Return Linefeed)
+.TP
+.B towin
+The same as
+.B todos.
+.RE
+
+.TP
+.BI \-o\  outfile
+This makes the preceding input file be written to
+.I outfile
+instead of being translated in place.
+.\" .SH SEE ALSO
+.\" .BR bar (1),
+.\" .BR baz (1).
+.\" .br
+.\" The programs are documented fully by
+.\" .IR "The Rise and Fall of a Fooish Bar" ,
+.\" available via the Info system.
+.SH EXAMPLES
+.TP
+.B tounix macfile
+translates
+.B macfile
+into unix text format.
+.TP
+.B tounix -c todos macfile
+translates
+.B macfile
+into DOS text format.
+.TP
+.B eol -c tomac file1 file2 file3 -o file4 file5
+translates
+.B file1, file2, 
+and
+.B file5
+into Macintosh text format.
+.B file3
+is also translated but the new translated version is saved into
+.B file4
+instead of being translated in place.
+
+.SH BUGS
+None, you pessimist!
+.SH AUTHOR
+This manual page was written by David Caldwell
+ <david@porkrind.org>
