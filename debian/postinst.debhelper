@@ -1,0 +1,7 @@
+# Automatically added by dh_installdocs
+if [ "$1" = "configure" ]; then
+	if [ -d /usr/doc -a ! -e /usr/doc/eol -a -d /usr/share/doc/eol ]; then
+		ln -sf ../share/doc/eol /usr/doc/eol
+	fi
+fi
+# End automatically added section

@@ -1,0 +1,15 @@
+Source: eol
+Section: text
+Priority: optional
+Maintainer: David Caldwell <david@porkrind.org>
+Standards-Version: 3.0.1
+
+Package: eol
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Translates text files between Mac, DOS, and Unix formats
+ 'eol' contains 4 programs that help you deal with cross-platform text files:
+   - tounix converts a text file into Unix format (eol=lf) from any format.
+   - tomac converts a text file into Macintosh format (eol=cr) from any format.
+   - todos converts a text file into DOS format (eol=crlf) from any format.
+   - towin converts a text file into DOS format (eol=crlf) from any format.
