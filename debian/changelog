@@ -1,3 +1,9 @@
+eol (1.0.3-1) unstable; urgency=low
+
+  * Make it use c99 mode instead of c++ to compile (since it uses no c++ features).
+
+ -- David Caldwell <david@porkrind.org>  Thu, 22 Sep 2005 21:07:45 -0700
+
 eol (1.0.2-2) unstable; urgency=low
 
   * Added conflict for sysutils (it contains todos).
@@ -24,6 +30,4 @@ eol (1.0.0-1) unstable; urgency=low
 
  -- David Caldwell <david@porkrind.org>  Wed, 19 Sep 2001 18:55:57 -0700
 
-Local variables:
-mode: debian-changelog
-End:
+
