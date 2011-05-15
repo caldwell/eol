@@ -38,7 +38,7 @@ void Usage(char *program)
 {
     printf("%s version %s\n",program,VersionString);
     printf("usage:\n"
-           "   %s [-c <conversion>] infile [-o outfile] ...\n"
+           "   %s [-c <conversion>] [infile [-o outfile] ...]\n"
            "      For each infile, if '-o' is specified, 'infile' will be copy converted to 'outfile'.\n"
            "      Otherwise, 'infile' will be converted in-line.\n"
            "   %s -h   # Print help\n"
@@ -113,8 +113,11 @@ int main (int c, char **v)
     c -= optind;
     v += optind;
 
-    if (c==0)
-        Usage(program);
+    if (c==0) {
+        static char *stdinout_args[] = { "-", "-o", "-" };
+        v = stdinout_args;
+        c = 3;
+    }
 
     int style;
     for (style=0;gEOL[style].operation;style++)
