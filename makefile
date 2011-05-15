@@ -1,5 +1,6 @@
 CC = gcc
 CPPFLAGS = -Wall -g -MMD
+CFLAGS += -std=gnu99
 LN = ln -s
 
 p=)
