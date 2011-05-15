@@ -41,8 +41,10 @@ void Usage(char *program)
            "   %s [-c <conversion>] infile [-o outfile] ...\n"
            "      For each infile, if '-o' is specified, 'infile' will be copy converted to 'outfile'.\n"
            "      Otherwise, 'infile' will be converted in-line.\n"
+           "   %s -h   # Print help\n"
+           "   %s -v   # Print version information\n"
            "\n"
-           " <conversion> can be one of:\n",program);
+           " <conversion> can be one of:\n",program,program,program);
     for (int i=0;gEOL[i].operation;i++)
         printf("    %-6s  -- convert End-Of-Lines to %s style.\n",gEOL[i].operation,gEOL[i].name);
     exit(1);
@@ -99,9 +101,13 @@ int main (int c, char **v)
     operation = program;
 
     int ch;
-    while ((ch = getopt(c, v, "c:")) != -1) {
+    while ((ch = getopt(c, v, "c:vh?")) != -1) {
         switch(ch) {
             case 'c': operation = optarg; break;
+            case 'h':
+            case '?': Usage(program);
+            case 'v': printf("%s %s\n",program,VersionString); exit(0);
+
         }
     }
     c -= optind;
