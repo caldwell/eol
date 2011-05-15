@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <getopt.h>
 #include "version.h"
 
 #define CR '\r'
@@ -95,18 +96,17 @@ int main (int c, char **v)
         *dot = '\0';
 #endif
 
-    if (c<2)
-        Usage(program);
-
     operation = program;
-    
-    ++v;--c;
-    if (strcmp("-c",*v)==0) {
-        operation = *++v;
-        ++v; // point to next argument.
-        c-=2;
+
+    int ch;
+    while ((ch = getopt(c, v, "c:")) != -1) {
+        switch(ch) {
+            case 'c': operation = optarg; break;
+        }
     }
-    
+    c -= optind;
+    v += optind;
+
     if (c==0)
         Usage(program);
 
