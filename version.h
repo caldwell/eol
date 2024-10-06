@@ -13,5 +13,6 @@
 #define VersionString XYZQuoteConCat(MajorVersion,MinorVersion,BugFixVersion)
 
 #ifdef VERSION_STRING_NOW
+#include <stdio.h>
 main () { printf(VersionString); }
 #endif

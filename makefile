@@ -1,5 +1,6 @@
 CC = gcc
 CPPFLAGS = -Wall -g -MMD
+CFLAGS += -std=gnu99
 LN = ln -s
 
 p=)
@@ -24,7 +25,8 @@ ifeq ($(os),next)
 	$(CC) $(CFLAGS) -c -o $@ $<
 endif
 
-version = $(shell MyVersion)
+all: MyVersion
+version = $(shell ./MyVersion)
 
 ifeq ($(os),dos)
  version = no-auto-version-with-dos
