@@ -1,0 +1,19 @@
+Source: eol
+Section: unknown
+Priority: optional
+Maintainer: David Caldwell <David Caldwell <david@porkrind.org>>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.7.0
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Browser: https://salsa.debian.org/debian/eol
+#Vcs-Git: https://salsa.debian.org/debian/eol.git
+
+Package: eol
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: <insert up to 60 chars description>
+ <Insert long description, indented with spaces.>
