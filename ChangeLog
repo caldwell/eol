@@ -1,3 +1,15 @@
+2024-10-06  David Caldwell  <david@porkrind.org>
+
+	* Update to compile with modern gcc
+
+	* Stop using some deprecated libc functions
+
+	* Added -v and -h options (for version and help)
+
+	* No arguments now means pipe through stdin/stdout
+
+	* Make explicit stdin ("eol -") work
+
 2001-09-26  David Caldwell  <david@indigita.com>
 
 	* eol.cc (Eol): Removed debug statement I had left in by accident.
@@ -9,5 +21,3 @@
 	* makefile: Added manpage and links to install
 
 	* version.h: Upped version to 1.0.1
-	
-
