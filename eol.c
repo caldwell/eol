@@ -22,7 +22,7 @@ struct {
     char *operation;
     char *name;
     char *eol;
-} gEOL[] = {   
+} gEOL[] = {
     { "tomac",  "Macintosh (CR)", qCR     },
     { "tounix", "Unix (LF)",      qLF     },
     { "todos",  "DOS (CRLF)",     qCR qLF },
@@ -33,7 +33,7 @@ struct {
 int Eol(char *inFileName,char *outFileName,char *eol);
 int ConvertEOFs(char *in, char *out,int length, char *eol);
 int move(char *oldpath, char *newpath,char *eol);
- 
+
 void Usage(char *program)
 {
     printf("%s version %s\n",program,VersionString);
@@ -85,11 +85,10 @@ int main (int c, char **v)
 {
     char *program,*operation,*base;
     program = v[0];   // this doesn't change -- its what they said to run
-    
-//    srand(time());
+
     if((base=strrchr(v[0],'/')) || (base=strrchr(v[0],'\\')))
         program = base + 1;
-    
+
 #if defined(__WIN32__) || defined(_WIN32)
     for(char *cc=program; *cc; cc++)
         *cc = tolower(*cc);
@@ -155,12 +154,8 @@ int Eol(char *inFileName,char *outFileName,char *eol)
     int inPlace = 0;
     if (!outFileName) {
         outFileName = tmpnam(tmpName);
-//        outFileName = tmpName;
-//        sprintf(outFileName,"No-one-would-name-their-file-%d",rand());
         inPlace = 1;
     }
-
-//    printf("Converting %s to %s%s\n",inFileName,outFileName,inPlace?" (inplace)":"");
 
     FILE *out = OpenAndErr(outFileName,"wb");
 
@@ -196,7 +191,7 @@ int ConvertEOFs(char *in, char *out,int length, char *eol)
     static char last = 0;
     int outLength=0;
     int eolLength = strlen(eol);
-    
+
     while (length--) {
         char current = *in++;
         if ((last == CR || last == LF) && (current == CR || current == LF) && last != current)
@@ -235,10 +230,3 @@ int move(char *oldpath, char *newpath,char *eol)
     }
     return 0;
 }
-
-
-// $Log$
-// Revision 1.1.1.1  2001/09/20 23:44:14  david
-// - Initial version
-//
-
