@@ -175,7 +175,7 @@ int Eol(char *inFileName,char *outFileName,char *eol)
     if (inPlace) {
         if (!remove(inFileName)) {
             if (move(outFileName,inFileName,eol)) {
-                //fprintf(stderr,"Couldn't move '%s' to '%s'\n",outFileName, inFileName);
+                fprintf(stderr,"Couldn't move '%s' to '%s'\n",outFileName, inFileName);
                 return -1;
             }
         } else {
