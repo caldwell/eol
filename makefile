@@ -13,9 +13,10 @@ os:=$(shell case `uname -s` in \
 eol_objs = eol.o
 getopt = #getopt/getopt.o getopt/getopt1.o
 
-prefix = /usr/local
-bindir = $(prefix)/bin
-mandir = $(prefix)/man/man$(mansection)
+DESTDIR=
+PREFIX = /usr/local
+bindir = $(DESTDIR)$(PREFIX)/bin
+mandir = $(DESTDIR)$(PREFIX)/man/man$(mansection)
 p = to
 
 ifeq ($(os),next)
