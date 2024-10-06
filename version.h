@@ -1,6 +1,6 @@
 #define MajorVersion  1
 #define MinorVersion  0
-#define BugFixVersion 1
+#define BugFixVersion 2
 
 #define Cat2(x,y) x##y
 #define Cat(x,y) Cat2(x,y)

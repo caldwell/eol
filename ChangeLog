@@ -1,3 +1,7 @@
+2001-09-26  David Caldwell  <david@indigita.com>
+
+	* eol.cc (Eol): Removed debug statement I had left in by accident.
+
 2001-09-20  David Caldwell  <david@indigita.com>
 
 	* eol.1: Created manpage
