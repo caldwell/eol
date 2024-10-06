@@ -18,6 +18,8 @@
 %:
 	dh $@
 
+override_dh_auto_install:
+	dh_auto_install -- PREFIX=/usr mandir='$$(DESTDIR)/usr/share/man/man$$(mansection)'
 
 # dh_make generated override targets.
 # This is an example for Cmake (see <https://bugs.debian.org/641051>).
