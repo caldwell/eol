@@ -1,4 +1,4 @@
-//     Copyright (C) 1995-2001  David Caldwell
+//     Copyright (C) 1995-2024  David Caldwell
 
 //     This program is free software; you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by

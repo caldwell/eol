@@ -1,6 +1,6 @@
 // $Header$
 // -------=====================<<<< COPYRIGHT >>>>========================-------
-//          Copyright (c) 1995-2001 David Caldwell,  All Rights Reserved.
+//          Copyright (c) 1995-2024 David Caldwell,  All Rights Reserved.
 //  See full text of copyright notice and limitations of use in file COPYRIGHT.h
 // -------================================================================-------
 
