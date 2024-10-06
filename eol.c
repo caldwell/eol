@@ -208,7 +208,7 @@ int ConvertEOFs(char *in, char *out,int length, char *eol)
         if ((last == CR || last == LF) && (current == CR || current == LF) && last != current)
             current = 0; // dont count this char in next round--throw away CRLF pairs (or LFCR)
         else if (current == CR || current == LF) {
-            strncpy(out,eol,eolLength);
+            memcpy(out,eol,eolLength);
             out += eolLength;
             outLength += eolLength;
         } else {
