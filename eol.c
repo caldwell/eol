@@ -1,6 +1,6 @@
 // $Header$
 // -------=====================<<<< COPYRIGHT >>>>========================-------
-//          Copyright (c) 1995-2001 David Caldwell,  All Rights Reserved.
+//          Copyright (c) 1995-2024 David Caldwell,  All Rights Reserved.
 //  See full text of copyright notice and limitations of use in file COPYRIGHT.h
 // -------================================================================-------
 
@@ -10,6 +10,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <getopt.h>
+#include <libgen.h>
+#include <limits.h>
+#include <err.h>
 #include "version.h"
 
 #define CR '\r'
@@ -21,7 +25,7 @@ struct {
     char *operation;
     char *name;
     char *eol;
-} gEOL[] = {   
+} gEOL[] = {
     { "tomac",  "Macintosh (CR)", qCR     },
     { "tounix", "Unix (LF)",      qLF     },
     { "todos",  "DOS (CRLF)",     qCR qLF },
@@ -32,16 +36,18 @@ struct {
 int Eol(char *inFileName,char *outFileName,char *eol);
 int ConvertEOFs(char *in, char *out,int length, char *eol);
 int move(char *oldpath, char *newpath,char *eol);
- 
+
 void Usage(char *program)
 {
     printf("%s version %s\n",program,VersionString);
     printf("usage:\n"
-           "   %s [-c <conversion>] infile [-o outfile] ...\n"
+           "   %s [-c <conversion>] [infile [-o outfile] ...]\n"
            "      For each infile, if '-o' is specified, 'infile' will be copy converted to 'outfile'.\n"
            "      Otherwise, 'infile' will be converted in-line.\n"
+           "   %s -h   # Print help\n"
+           "   %s -v   # Print version information\n"
            "\n"
-           " <conversion> can be one of:\n",program);
+           " <conversion> can be one of:\n",program,program,program);
     for (int i=0;gEOL[i].operation;i++)
         printf("    %-6s  -- convert End-Of-Lines to %s style.\n",gEOL[i].operation,gEOL[i].name);
     exit(1);
@@ -82,11 +88,10 @@ int main (int c, char **v)
 {
     char *program,*operation,*base;
     program = v[0];   // this doesn't change -- its what they said to run
-    
-//    srand(time());
+
     if((base=strrchr(v[0],'/')) || (base=strrchr(v[0],'\\')))
         program = base + 1;
-    
+
 #if defined(__WIN32__) || defined(_WIN32)
     for(char *cc=program; *cc; cc++)
         *cc = tolower(*cc);
@@ -95,20 +100,26 @@ int main (int c, char **v)
         *dot = '\0';
 #endif
 
-    if (c<2)
-        Usage(program);
-
     operation = program;
-    
-    ++v;--c;
-    if (strcmp("-c",*v)==0) {
-        operation = *++v;
-        ++v; // point to next argument.
-        c-=2;
+
+    int ch;
+    while ((ch = getopt(c, v, "c:vh?")) != -1) {
+        switch(ch) {
+            case 'c': operation = optarg; break;
+            case 'h':
+            case '?': Usage(program);
+            case 'v': printf("%s %s\n",program,VersionString); exit(0);
+
+        }
     }
-    
-    if (c==0)
-        Usage(program);
+    c -= optind;
+    v += optind;
+
+    if (c==0) {
+        static char *stdinout_args[] = { "-", "-o", "-" };
+        v = stdinout_args;
+        c = 3;
+    }
 
     int style;
     for (style=0;gEOL[style].operation;style++)
@@ -142,18 +153,22 @@ int Eol(char *inFileName,char *outFileName,char *eol)
 {
     FILE *in = OpenAndErr(inFileName,"rb");
 
-    char tmpName[L_tmpnam];
+    char tmpName[PATH_MAX];
     int inPlace = 0;
+    FILE *out;
+    if (!outFileName && streq(inFileName, "-"))
+        outFileName = "-";
     if (!outFileName) {
-        outFileName = tmpnam(tmpName);
-//        outFileName = tmpName;
-//        sprintf(outFileName,"No-one-would-name-their-file-%d",rand());
+        if (snprintf(tmpName, sizeof(tmpName), "%s-XXXXXX", basename(inFileName)) >= sizeof(tmpName))
+            strcpy("eol-XXXXXX", tmpName);
+        int ofd = mkstemp(tmpName);
+        if (ofd < 0)
+            err(EXIT_FAILURE, "Error creating temp file");
+        out = fdopen(ofd, "w");
+        outFileName = tmpName;
         inPlace = 1;
-    }
-
-//    printf("Converting %s to %s%s\n",inFileName,outFileName,inPlace?" (inplace)":"");
-
-    FILE *out = OpenAndErr(outFileName,"wb");
+    } else
+        out = OpenAndErr(outFileName,"wb");
 
 #define BUFFER_SIZE 16384
     do {
@@ -171,7 +186,7 @@ int Eol(char *inFileName,char *outFileName,char *eol)
     if (inPlace) {
         if (!remove(inFileName)) {
             if (move(outFileName,inFileName,eol)) {
-                //fprintf(stderr,"Couldn't move '%s' to '%s'\n",outFileName, inFileName);
+                fprintf(stderr,"Couldn't move '%s' to '%s'\n",outFileName, inFileName);
                 return -1;
             }
         } else {
@@ -187,13 +202,13 @@ int ConvertEOFs(char *in, char *out,int length, char *eol)
     static char last = 0;
     int outLength=0;
     int eolLength = strlen(eol);
-    
+
     while (length--) {
         char current = *in++;
         if ((last == CR || last == LF) && (current == CR || current == LF) && last != current)
             current = 0; // dont count this char in next round--throw away CRLF pairs (or LFCR)
         else if (current == CR || current == LF) {
-            strncpy(out,eol,eolLength);
+            memcpy(out,eol,eolLength);
             out += eolLength;
             outLength += eolLength;
         } else {
@@ -226,10 +241,3 @@ int move(char *oldpath, char *newpath,char *eol)
     }
     return 0;
 }
-
-
-// $Log$
-// Revision 1.1.1.1  2001/09/20 23:44:14  david
-// - Initial version
-//
-
