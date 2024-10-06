@@ -2,12 +2,19 @@ Source: eol
 Section: text
 Priority: optional
 Maintainer: David Caldwell <david@porkrind.org>
-Standards-Version: 3.0.1
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.7.0
+Homepage: https://github.com/caldwell/eol
+Vcs-Browser: https://github.com/caldwell/eol
+Vcs-Git: https://github.com/caldwell/eol.git
 
 Package: eol
 Architecture: any
-Depends: ${shlibs:Depends}
-Conflicts: sysutils
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
 Description: Translates text files between Mac, DOS, and Unix formats
  'eol' contains 4 programs that help you deal with cross-platform text files:
    - tounix converts a text file into Unix format (eol=lf) from any format.
