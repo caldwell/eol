@@ -16,7 +16,7 @@ getopt = #getopt/getopt.o getopt/getopt1.o
 DESTDIR=
 PREFIX = /usr/local
 bindir = $(DESTDIR)$(PREFIX)/bin
-mandir = $(DESTDIR)$(PREFIX)/man/man$(mansection)
+mandir = $(DESTDIR)$(PREFIX)/share/man/man$(mansection)
 p = to
 
 ifeq ($(os),next)
