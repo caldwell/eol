@@ -2,7 +2,7 @@ Source: eol
 Section: text
 Priority: optional
 Maintainer: David Caldwell <david@porkrind.org>
-Rules-Requires-Root: no
+Rules-Requires-Root: binary-targets
 Build-Depends:
  debhelper-compat (= 13),
 Standards-Version: 4.7.0
