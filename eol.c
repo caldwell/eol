@@ -156,6 +156,8 @@ int Eol(char *inFileName,char *outFileName,char *eol)
     char tmpName[PATH_MAX];
     int inPlace = 0;
     FILE *out;
+    if (!outFileName && streq(inFileName, "-"))
+        outFileName = "-";
     if (!outFileName) {
         if (snprintf(tmpName, sizeof(tmpName), "%s-XXXXXX", basename(inFileName)) >= sizeof(tmpName))
             strcpy("eol-XXXXXX", tmpName);
