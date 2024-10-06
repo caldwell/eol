@@ -14,5 +14,5 @@
 
 #ifdef VERSION_STRING_NOW
 #include <stdio.h>
-main () { printf(VersionString); }
+int main () { printf(VersionString); return 0; }
 #endif
