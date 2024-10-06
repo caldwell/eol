@@ -19,19 +19,19 @@
 eol \- program to translate text file end-of-line characters.
 .SH SYNOPSIS
 .B eol
-.RI -c\  <conversion> \  infile \ [\ -o\  outfile \ ]\ ...
+.RI -c\  <conversion> \ [ \ infile \ [\ -o\  outfile \ ]\ ...\ ]
 .br
 .B tounix
-.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.RI [\ -c\  <conversion> \ ]\ [\  infile \ [\ -o\  outfile \ ]\ ...\ ]
 .br
 .B tomac
-.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.RI [\ -c\  <conversion> \ ]\ [\  infile \ [\ -o\  outfile \ ]\ ...\ ]
 .br
 .B todos
-.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.RI [\ -c\  <conversion> \ ]\ [\  infile \ [\ -o\  outfile \ ]\ ...\ ]
 .br
 .B towin
-.RI [\ -c\  <conversion> \ ]\  infile \ [\ -o\  outfile \ ]\ ...
+.RI [\ -c\  <conversion> \ ]\ [\  infile \ [\ -o\  outfile \ ]\ ...\ ]
 .SH DESCRIPTION
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
@@ -44,6 +44,12 @@ translations are by default done "in place" meaning the input file is the
 same as the output file. This can be changed with the
 .B \-o
 command line option.
+.PP
+If no input or output files are specified then \fBeol\fP will translate
+\fIstdin\fP to \fIstdout\fP.
+.PP
+\fIstdin\fP and \fIstdout\fP may be specfied explicitly by using \fB-\fP as
+the input name and output name, respectively.
 .PP
 Unlike similiar programs, 
 .B eol
