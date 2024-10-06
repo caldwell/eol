@@ -11,6 +11,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <getopt.h>
+#include <libgen.h>
+#include <limits.h>
+#include <err.h>
 #include "version.h"
 
 #define CR '\r'
@@ -150,14 +153,20 @@ int Eol(char *inFileName,char *outFileName,char *eol)
 {
     FILE *in = OpenAndErr(inFileName,"rb");
 
-    char tmpName[L_tmpnam];
+    char tmpName[PATH_MAX];
     int inPlace = 0;
+    FILE *out;
     if (!outFileName) {
-        outFileName = tmpnam(tmpName);
+        if (snprintf(tmpName, sizeof(tmpName), "%s-XXXXXX", basename(inFileName)) >= sizeof(tmpName))
+            strcpy("eol-XXXXXX", tmpName);
+        int ofd = mkstemp(tmpName);
+        if (ofd < 0)
+            err(EXIT_FAILURE, "Error creating temp file");
+        out = fdopen(ofd, "w");
+        outFileName = tmpName;
         inPlace = 1;
-    }
-
-    FILE *out = OpenAndErr(outFileName,"wb");
+    } else
+        out = OpenAndErr(outFileName,"wb");
 
 #define BUFFER_SIZE 16384
     do {
